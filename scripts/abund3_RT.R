@@ -64,7 +64,7 @@ modcode <- nimbleCode({
         max.trap[i,j,k] <- min(50,(N.belief[i,j,k]/n.trap)) #n.trap = number of traps per segment where trapping occurs
         
         #Y.trap = number of individuals trapped and removed per trap
-        Y.trap[i,j,k] ~ dunif(0, max.trap[i,j,k])
+        Y.trap[i,j,k] ~ dunif(0, max.trap[i,j,k]) #subtract 1 here? -from mark
         
         #Y = number of individuals trapped and removed (whole number)
         Y[i,j,k] <- ceiling(Y.trap[i,j,k]*n.trap*trap.index[i,j]) 
