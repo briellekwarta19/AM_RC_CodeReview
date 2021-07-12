@@ -471,7 +471,7 @@ for (n in 1:N){
 #############################################################################
 #### STEP2: First Learning ####
 # Data in a list. 
-my.data <- list(y = y + 1, Y = Y)
+my.data <- list(y = y + 1, Y.trap = Y.trap)
 
 my.constants <- list(I = I, #Number of segments
                      J = dim(y)[2], #Number of primary periods

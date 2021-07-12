@@ -261,7 +261,7 @@ my.constants <- list(I = I, #Number of segments
                      trap.index = trap.index, #which segments have traps
                      alpha = rep(1, I)) #Data for dirichlet process
 #Data
-my.data <- list(Y = Y) #removal data
+my.data <- list(Y.trap = Y.trap) #removal data
 
 # Initial values
 N.start <- array(c(rep(5000,I),rep(5000, I + 2*(J-1)*(I))), dim = c(I,J,K))
@@ -425,7 +425,7 @@ for (run in 3:final.run) {
                        trap.index = trap.index, 
                        alpha = rep(1, I))
   
-  my.data <- list(Y = Y)
+  my.data <- list(Y.trap = Y.trap)
   
   
   # Initial values

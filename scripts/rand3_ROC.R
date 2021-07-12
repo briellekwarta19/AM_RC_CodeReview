@@ -309,7 +309,7 @@ my.constants <- list(I = I, #Number of segments
                      c.site = c.site, #detection probability from count data for each site
                      alpha = rep(1, I)) #Data for dirichlet process
 #Data
-my.data <- list(Y = Y, O = O, C = C) #removal data
+my.data <- list(Y.trap = Y.trap, O = O, C = C) #removal data
 
 # Initial values
 N.start <- array(c(rep(5000,I),rep(5000, I + 2*(J-1)*(I))), dim = c(I,J,K))
