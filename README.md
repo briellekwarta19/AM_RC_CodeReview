@@ -8,6 +8,6 @@ Through this study I aim to determine whether different monitoring data streams 
 3. STEP 3: First decision process= where we select our management and data collection rule. This is based on our belief of the system. 
 
 ### B. General Procedure:
-4. STEP 4: Simulate Population = simulating true system dynamics
+4. STEP 4: Simulate Population = simulate true system dynamics
 5. STEP 5: Learning process = where we generate our belief of the system using data we collected
 6. STEP 6: Update decision process = based on our belief, we update management and data collection rules
