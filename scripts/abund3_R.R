@@ -67,6 +67,7 @@ modcode <- nimbleCode({
       # Removal data:
       for(k in 1: K){
         #Calculating max individuals that could be trapped: 
+          #From mark: could change this to binomial with a truncation 
         #traps can capture between 0 to 50 individuals
         #But if population < 50, our max capture per trap is N.belief/n.trap
         max.trap[i,j,k] <- min(50,(N.belief[i,j,k]/n.trap)) #n.trap = number of traps per segment where trapping occurs
