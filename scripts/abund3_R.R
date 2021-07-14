@@ -70,13 +70,17 @@ modcode <- nimbleCode({
           #From mark: could change this to binomial with a truncation 
         #traps can capture between 0 to 50 individuals
         #But if population < 50, our max capture per trap is N.belief/n.trap
-        max.trap[i,j,k] <- min(50,(N.belief[i,j,k]/n.trap)) #n.trap = number of traps per segment where trapping occurs
+        #max.trap[i,j,k] <- min(50,(N.belief[i,j,k]/n.trap)) #n.trap = number of traps per segment where trapping occurs
         
         #Y.trap = number of individuals trapped and removed per trap
-        Y.trap[i,j,k] ~ dunif(0, max.trap[i,j,k]) #subtract 1 here? -from mark
+        #Y.trap[i,j,k] ~ dunif(0, max.trap[i,j,k]) #subtract 1 here? -from mark, if max.trap = 0 could be an issue
         
         #Y = number of individuals trapped and removed (whole number)
-        Y[i,j,k] <- ceiling(Y.trap[i,j,k]*n.trap*trap.index[i,j]) 
+        #Y[i,j,k] <- ceiling(Y.trap[i,j,k]*n.trap*trap.index[i,j]) 
+        
+        #Y[i,j,k] ~ dbin(p[i,j,k], N.belief[i,j,k])T(0,50*n.trap[i,j,k]) #total number of individuals removed, truncated bc trap saturation
+        #logit(p[i,j,k]) = ....
+        #
       }
       # Abundance at the end of primary removal period j:
       R.index[i,j] <- step(N.belief[i,j,K] - Y[i,j,K]) #if negative population R.index = 0, else 1
@@ -84,17 +88,25 @@ modcode <- nimbleCode({
       
       
       ##--Population growth--##
-      #Surviving individuals
-      S[i,j] ~ dbin(phi, R[i,j]) 
+      #Surviving individuals: use a model similar to this for telemetry data
+      # S[i,j] ~ dbin(phi, R[i,j]) 
+      # 
+      # #Recruited individuals
+      # G[i,j] ~ dpois(lambda[j]) 
+      # D[i,j] <- S[i,j] + R[i,j] #population available for dispersal
       
-      #Recruited individuals
-      G[i,j] ~ dpois(lambda[j]) 
-      D[i,j] <- S[i,j] + R[i,j] #population available for dispersal
+      ##--Population growth--##
+      lambda[i,j] ~ dunif(0.9,1.5) #growth rate
+      g[i,j] <- R[i,j]*lambda[i,j]
+      D[i,j] ~ dpois(g[i,j]) #population available for dispersal
       
       #--Movement process--#
       # Movemement probabilities:
       pi[i,1:I,j] ~ ddirch(alpha[1:I]) #movement probabilities
       #Calculating M[i,h,j] = number of individuals moving from i to h at j
+      
+      #we could model our movement probabilities to be more realistic:
+      #have some weighting system for movement probabilities (harder upstream than downstream)
       
       # num of individs that move to seg 1
       M[i,1,j] ~ dbin(pi[i,1,j],D[i,j])
